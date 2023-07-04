@@ -1,12 +1,19 @@
 import { useState, useEffect } from "react";
+import Error from "./Error";
 
-export const Formulario = ({setPaciente}) => {
+export const Formulario = ({ setPacientes, pacientes }) => {
   const [nombre, setNombre] = useState("");
   const [propietario, setPropietario] = useState("");
   const [email, setEmail] = useState("");
   const [fecha, setFecha] = useState("");
   const [sintomas, setSintomas] = useState("");
   const [error, setError] = useState(false);
+
+  const generarId = () => {
+    const ramdom = Math.random().toString(36).substr(2);
+    const fecha = Date.now().toString(36);
+    return ramdom + fecha;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,8 +22,29 @@ export const Formulario = ({setPaciente}) => {
       setError(true);
       return;
     }
-    setError(false); 
-  }
+    setError(false);
+
+    // objeto de PAciente
+
+    const objetoPaciente = {
+      nombre,
+      propietario,
+      email,
+      fecha,
+      sintomas,
+      id: generarId(),
+    };
+
+    setPacientes([...pacientes, objetoPaciente]);
+
+    // reiniciar el Formulario
+
+    setNombre("");
+    setPropietario("");
+    setEmail("");
+    setFecha("");
+    setSintomas("");
+  };
 
   return (
     <div className="md:w-1/2 lg:w-2/5 mx-5">
@@ -31,11 +59,7 @@ export const Formulario = ({setPaciente}) => {
         className="bg-white shadow-md rounded-lg py-10 px-5"
         action=""
       >
-        {error && (
-          <p className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-5 text-center uppercase font-bold rounded-md">
-            Todos los campos son obligatorios
-          </p>
-        )}
+        {error && <Error>Todos los campos son obligatorios</Error>}
         <div className="mb-5">
           <label
             className="block text-gray-700 uppercase font-bold"
