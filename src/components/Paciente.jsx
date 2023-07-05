@@ -24,6 +24,12 @@ const Paciente = ({paciente}) => {
        {sintomas}
       </span>
     </p>
+    <div className="flex justify-between my-10">
+
+      <button type="button" className="py-2 px-10 bg-indigo-600 hover:bg-indigo-700 rounded-lg uppercase text-white font-bold">Editar</button>
+      <button type="button" className="py-2 px-10 bg-red-600 hover:bg-red-700 rounded-lg uppercase text-white font-bold
+      ">Eliminar</button>
+    </div>
   </div>
   )
 }
