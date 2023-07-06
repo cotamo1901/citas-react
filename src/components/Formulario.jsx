@@ -9,6 +9,11 @@ export const Formulario = ({ setPacientes, pacientes }) => {
   const [sintomas, setSintomas] = useState("");
   const [error, setError] = useState(false);
 
+  useEffect(() => {
+
+    
+  }, [pacientes]);
+
   const generarId = () => {
     const random = Math.random().toString(36).substr(2);
     const fecha = Date.now().toString(36);
