@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Error from "./Error";
 
-export const Formulario = ({ setPacientes, pacientes,paciente }) => {
+export const Formulario = ({ setPacientes, pacientes, paciente,setPaciente }) => {
   const [nombre, setNombre] = useState("");
   const [propietario, setPropietario] = useState("");
   const [email, setEmail] = useState("");
@@ -12,14 +12,12 @@ export const Formulario = ({ setPacientes, pacientes,paciente }) => {
   useEffect(() => {
     if (Object.keys(paciente).length > 0) {
       setNombre(paciente.nombre);
-      setPropietario(paciente.propietario)
-      setEmail(paciente.email)
-      setFecha(paciente.fecha)
-      setSintomas(paciente.sintomas)
-
+      setPropietario(paciente.propietario);
+      setEmail(paciente.email);
+      setFecha(paciente.fecha);
+      setSintomas(paciente.sintomas);
     }
   }, [paciente]);
-  
 
   const generarId = () => {
     const random = Math.random().toString(36).substr(2);
@@ -44,10 +42,20 @@ export const Formulario = ({ setPacientes, pacientes,paciente }) => {
       email,
       fecha,
       sintomas,
-      id: generarId(),
     };
 
-    setPacientes([...pacientes, objetoPaciente]);
+    if (paciente.id) {
+      objetoPaciente.id = paciente.id;
+
+      const pacientesActualizados = pacientes.map((pacienteState) =>
+        pacienteState.id === paciente.id ? objetoPaciente : pacienteState
+      );
+      setPacientes(pacientesActualizados);
+      setPaciente({});
+    } else {
+      objetoPaciente.id = generarId();
+      setPacientes([...pacientes, objetoPaciente]);
+    }
 
     // reiniciar el Formulario
 
@@ -153,7 +161,7 @@ export const Formulario = ({ setPacientes, pacientes,paciente }) => {
         <input
           type="submit"
           className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-all"
-          value="Agregar Paciente"
+          value={paciente.id ? "Editar Paciente" : "Agregar Paciente"}
         />
       </form>
     </div>
