@@ -8,16 +8,30 @@ function App() {
   const [pacientes, setPacientes] = useState([]);
   const [paciente, setPaciente] = useState({});
 
-  useEffect(() => {
-    const obtenerLS = () => {
-      const pacientesLS = JSON.parse(localStorage.getItem("pacientes")) ?? [];
-      setPacientes(pacientesLS);
-    };
-    obtenerLS();
-  }, []);
+  // useEffect(() => {
+  //   const obtenerLS = () => {
+  //     const pacientesLS = JSON.parse(localStorage.getItem('pacientes')) ?? [];
+  //     setPacientes(pacientesLS);
+      
+  //   };
+  //   obtenerLS();
+  //   console.log(3)
+  // }, []);
+  
+
+  // useEffect(() => {
+  //   localStorage.setItem('pacientes', JSON.stringify(pacientes));
+  // }, [pacientes]);
+
+
 
   useEffect(() => {
-    localStorage.setItem("pacientes", JSON.stringify(pacientes));
+    const pacientesLocal = JSON.parse(localStorage.getItem('pacientes'));
+    pacientesLocal?.length > 0 && setPacientes(pacientesLocal);
+  }, []);
+ 
+  useEffect(() => {
+    localStorage.setItem('pacientes', JSON.stringify(pacientes));
   }, [pacientes]);
 
   const eliminarPaciente = (id) => {
@@ -25,6 +39,7 @@ function App() {
       (paciente) => paciente.id !== id
     );
     setPacientes(pacientesActualizados);
+
   };
 
   return (
